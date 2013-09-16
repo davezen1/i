@@ -1,0 +1,4 @@
+i
+=
+
+minimal info card
