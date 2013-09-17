@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--><html lang="en"> <!--<![endif]-->
+<head>
+
+	<!-- Basic Page Needs
+  ================================================== -->
+	<meta charset="utf-8">
+	<title>i - minimal info card</title>
+	<meta name="description" content="">
+	<meta name="author" content="">
+
+	<!-- Mobile Specific Metas
+  ================================================== -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<!-- CSS
+  ================================================== -->
+	<link rel="stylesheet" href="stylesheets/base.css">
+	<link rel="stylesheet" href="stylesheets/skeleton.css">
+	<link rel="stylesheet" href="stylesheets/layout.css">
+
+	<!--[if lt IE 9]>
+		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+
+	<!-- Favicons
+	================================================== -->
+	<link rel="shortcut icon" href="images/favicon.ico">
+	<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+
+</head>
+<body>
+	<div id="fs" class="container fs-container">
+		<div class="sixteen columns">
+			<h1 class="remove-bottom" style="margin-top: 40px">David <strong>Hodge</strong></h1>
+			<h2>Chief of Awesome</h2>
+			<h3><strong>@davezen1<strong></h3>
+		</div>
+	</div><!-- container -->
+	
+	<script>
+	
+	document.cancelFullScreen = document.webkitExitFullscreen || document.mozCancelFullScreen || document.exitFullscreen;
+
+	var elem = document.querySelector(document.webkitExitFullscreen ? "#fs" : "#container");
+
+	document.addEventListener('keydown', function(e) {
+	  switch (e.keyCode) {
+	    case 13: // ENTER. ESC should also take you out of fullscreen by default.
+	      e.preventDefault();
+	      document.cancelFullScreen(); // explicitly go out of fs.
+	      break;
+	    case 70: // f
+	      enterFullscreen();
+	      break;
+	  }
+	}, false);
+
+	function toggleFS(el) {
+	  if (el.webkitEnterFullScreen) {
+	    el.webkitEnterFullScreen();
+	  } else {
+	    if (el.mozRequestFullScreen) {
+	      el.mozRequestFullScreen();
+	    } else {
+	      el.requestFullscreen();
+	    }
+	  }
+
+	  el.ondblclick = exitFullscreen;
+	}
+
+	function onFullScreenEnter() {
+	  console.log("Entered fullscreen!");
+	  elem.onwebkitfullscreenchange = onFullScreenExit;
+	  elem.onmozfullscreenchange = onFullScreenExit;
+	};
+
+	// Called whenever the browser exits fullscreen.
+	function onFullScreenExit() {
+	  console.log("Exited fullscreen!");
+	};
+
+	// Note: FF nightly needs about:config full-screen-api.enabled set to true.
+	function enterFullscreen() {
+	  console.log("enterFullscreen()");
+	  elem.onwebkitfullscreenchange = onFullScreenEnter;
+	  elem.onmozfullscreenchange = onFullScreenEnter;
+	  elem.onfullscreenchange = onFullScreenEnter;
+	  if (elem.webkitRequestFullscreen) {
+	    elem.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+	  } else {
+	    if (elem.mozRequestFullScreen) {
+	      elem.mozRequestFullScreen();
+	    } else {
+	      elem.requestFullscreen();
+	    }
+	  }
+	  // document.getElementById('enter-exit-fs').onclick = exitFullscreen;
+	}
+
+	function exitFullscreen() {
+	  console.log("exitFullscreen()");
+	  document.cancelFullScreen();
+	  document.getElementById('enter-exit-fs').onclick = enterFullscreen;
+	}
+	
+	
+	var obj = document.getElementById('fs');
+
+	obj.addEventListener('touchmove', function(event) {
+		enterFullscreen();
+	}, false);
+	</script>	
+</body>
+</html>
